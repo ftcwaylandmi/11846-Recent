@@ -1,43 +1,55 @@
 package teamcode.Teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
 import teamcode.Susbsystems.ArmSubsystem;
 import teamcode.Susbsystems.MecanumSubsystem;
 import teamcode.Susbsystems.SensorSubsystem;
 
-@TeleOp
+@TeleOp(name = "TeleOpMain", group = "TeleOp")
 public class TeleopB extends OpMode {
-
-    ArmSubsystem armSubsystem;
     MecanumSubsystem mecanumSubsystem;
+    ArmSubsystem armSubsystem;
 
+    @Override
     public void init(){
-        armSubsystem = new ArmSubsystem(hardwareMap);
         mecanumSubsystem = new MecanumSubsystem(hardwareMap);
+        armSubsystem = new ArmSubsystem(hardwareMap);
     }
 
     @Override
-    public void loop(){
+    public void loop() {
 
-        double pivot = gamepad2.left_stick_y;
-        double extend = gamepad2.right_stick_y;
-        double intake = gamepad2.right_trigger;
+        double forward = -gamepad1.left_stick_y;
+        double turn = -gamepad1.right_stick_x;
+        double strafe = -gamepad1.left_stick_x;
+        double extend = -gamepad2.left_stick_y;
+        double pivot = gamepad2.right_stick_y;
+        double intake = gamepad1.right_trigger;
 
-        armSubsystem.pivotM(pivot);
+        armSubsystem.intakeM(intake);
         armSubsystem.extendM(extend);
-        armSubsystem.intake(intake);
+        armSubsystem.pivotM(pivot);
+        mecanumSubsystem.Forward(forward);
+        mecanumSubsystem.Turn(turn);
+        mecanumSubsystem.Strafe(strafe);
 
-        if(gamepad2.a){
-            armSubsystem.launch();
-        }else if(gamepad2.y){
-            armSubsystem.grabPixel();
-        }else if(gamepad2.b){
-            armSubsystem.releasePixel();
-        }else if(gamepad2.dpad_up){
-            armSubsystem.scorePixelWrist();
+        if(gamepad2.dpad_left){
+            armSubsystem.airplaneLaunch();
+        }else if(gamepad2.right_bumper){
+            armSubsystem.grabOpen();
+        }else if(gamepad2.left_bumper){
+            armSubsystem.grabClose();
+        }else if(gamepad2.dpad_left){
+            armSubsystem.increaseSlush((int) 0.1);
+            armSubsystem.wristUp();
         }else if(gamepad2.dpad_down){
-            armSubsystem.grabPixelWrist();
+            armSubsystem.increaseSlush((int) -0.1);
+            armSubsystem.wristDown();
         }
     }
+
 }

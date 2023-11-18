@@ -9,4 +9,8 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 public class SensorSubsystem {
 
+    public SensorSubsystem(HardwareMap hardwareMap){
+
+    }
+
 }
