@@ -10,7 +10,7 @@ public final class ArmConstants {
             public static int SCORE_POSITION = 100;
             public static int GRAB_POSITION = -100;
             public static int STACK_GRAB_POSITION = 50;
-            public static int HANG_POSITION = 0;
+            public static int HANG_POSITION = 1;
             public static int CATCH_POSITION = 100;
         }
 
